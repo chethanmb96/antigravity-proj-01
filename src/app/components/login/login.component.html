@@ -1,0 +1,69 @@
+<!-- ════════════════════════════════════════════════════
+  Login Template — Template-Driven Form
+  ════════════════════════════════════════════════════
+
+  Template-Driven Form Concepts:
+  ─────────────────────────────────────────────────
+  #loginForm="ngForm"
+    → Creates a local template reference to the NgForm.
+    → loginForm.valid is true when all required fields are filled.
+    → JS Analogy: const loginForm = document.querySelector('form');
+
+  [(ngModel)]="username"
+    → TWO-WAY data binding:
+      - If user types "admin" → this.username = "admin"
+      - If you do this.username = "admin" in TS → input shows "admin"
+    → The [( )] syntax = banana-in-a-box 🍌📦
+    → [ngModel] = one-way in (component → template)
+    → (ngModel) = one-way out (template → component)
+    → [(ngModel)] = both directions
+
+  name="username"
+    → Required by Angular when using ngModel inside a <form>
+    → Registers this field with the NgForm
+
+  (ngSubmit)="onSubmit()"
+    → Fires when the form is submitted (button click or Enter)
+════════════════════════════════════════════════ -->
+
+<div class="login-card">
+  <div class="login-header">
+    <h1>Employee Management</h1>
+    <p>Sign in to manage employees</p>
+  </div>
+
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        name="username"
+        [(ngModel)]="username"
+        placeholder="Enter any username"
+        required
+        autocomplete="username"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Enter any password"
+        required
+        autocomplete="current-password"
+      />
+    </div>
+
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button type="submit" class="btn-login">Sign In</button>
+
+    <p class="hint">💡 Tip: Enter any username & password to log in</p>
+  </form>
+</div>

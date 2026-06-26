@@ -1,0 +1,81 @@
+<!-- ════════════════════════════════════════════════════
+  Employee Table Template (Async version with Loading UI)
+  ════════════════════════════════════════════════════ -->
+
+<div class="table-container">
+
+  <!-- ── Header ── -->
+  <div class="page-header">
+    <!-- Disable the button while loading to prevent actions during transit -->
+    <button class="btn btn-primary" (click)="openAddModal()" [disabled]="isLoading">
+      Add Employee
+    </button>
+  </div>
+
+  <!-- ── Employee Table ── -->
+  <table class="employee-table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- ── Loading Spinner Row ── -->
+      <!-- Shown only while isLoading is true -->
+      <tr *ngIf="isLoading">
+        <td colspan="7" class="loading-row">
+          <div class="loading-spinner-container">
+            <div class="loading-spinner"></div>
+            <span class="loading-text">Fetching data from API...</span>
+          </div>
+        </td>
+      </tr>
+
+      <!-- ── Employee Rows ── -->
+      <!-- We only show rows if we are not loading -->
+      <ng-container *ngIf="!isLoading">
+        <tr *ngFor="let employee of employees; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td class="name-cell">{{ employee.firstName }}</td>
+          <td class="name-cell">{{ employee.lastName }}</td>
+          <td class="email-cell">{{ employee.email }}</td>
+          <td>${{ employee.salary | number }}</td>
+          <td [class.highlight-date]="true">{{ employee.date }}</td>
+
+          <td class="actions-cell">
+            <button class="btn btn-edit" (click)="openEditModal(employee)" [disabled]="isLoading">
+              Edit
+            </button>
+            <button class="btn btn-delete" (click)="onDelete(employee)" [disabled]="isLoading">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+
+      <!-- Empty state: shown when no employees exist AND loading has finished -->
+      <tr *ngIf="employees.length === 0 && !isLoading">
+        <td colspan="7" class="empty-row">
+          No employees found. Click "Add Employee" to add one.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ── Child Component: Employee Form Modal ── -->
+<app-employee-form
+  *ngIf="showModal"
+  [employeeToEdit]="employeeToEdit"
+  (save)="onSave($event)"
+  (cancel)="closeModal()"
+>
+</app-employee-form>

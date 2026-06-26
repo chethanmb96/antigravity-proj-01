@@ -1,0 +1,41 @@
+<!-- ════════════════════════════════════════════════════
+  Root App Template
+  ════════════════════════════════════════════════════
+
+  Angular Concepts here:
+  ─────────────────────────────────────────────────
+  *ngIf="isLoggedIn"
+    → Shows the main app ONLY when isLoggedIn is true
+    → Otherwise shows the login screen
+
+  <app-login> and <app-employee-table> are child components.
+  Their selectors are defined in each component's @Component.
+
+  (login)="onLogin($event)"
+    → Listens to the 'login' EventEmitter from <app-login>
+    → $event contains the emitted value (credentials object)
+    → Calls our onLogin() method with that data
+
+  (click)="onLogout()"
+    → Event binding: calling onLogout() on button click
+════════════════════════════════════════════════ -->
+
+<!-- ── LOGGED IN: Show main app ── -->
+<div *ngIf="isLoggedIn" class="app-wrapper">
+  <div class="app-card">
+    <div class="app-title-bar">
+      <h1 class="app-title">Employee Management Software</h1>
+      <div class="header-actions">
+        <button class="btn-logout" (click)="onLogout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Child component: the main employee table -->
+    <app-employee-table></app-employee-table>
+  </div>
+</div>
+
+<!-- ── NOT LOGGED IN: Show login screen ── -->
+<div *ngIf="!isLoggedIn" class="login-wrapper">
+  <app-login (login)="onLogin($event)"></app-login>
+</div>

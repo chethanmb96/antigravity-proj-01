@@ -1,0 +1,66 @@
+/* ── App Wrapper ── */
+.app-wrapper {
+  min-height: 100vh;
+  background: #87ceeb;  /* Light sky blue background like the original */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* ── Main Card (white box) ── */
+.app-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* ── Title Bar ── */
+.app-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.app-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* ── Logout Button (matches original design) ── */
+.btn-logout {
+  padding: 0.45rem 1rem;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-logout:hover {
+  background: #f0f0f0;
+}
+
+/* ── Login Wrapper ── */
+.login-wrapper {
+  min-height: 100vh;
+  background: #87ceeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

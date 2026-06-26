@@ -1,0 +1,134 @@
+<!-- ════════════════════════════════════════════════════
+  Employee Form Modal Template
+  ════════════════════════════════════════════════════
+
+  Angular Template Syntax you'll see here:
+  ─────────────────────────────────────────
+  [formGroup]="form"        →  Links <form> to our FormGroup JS object
+  formControlName="email"   →  Links <input> to form.controls.email
+  (ngSubmit)="onSubmit()"   →  Calls onSubmit() when form is submitted
+  (click)="onCancel()"      →  Calls onCancel() when button is clicked
+  *ngIf="condition"         →  Shows element only if condition is true
+
+  Validation Access:
+    form.get('email')        →  Gets the FormControl for 'email'
+    ?.invalid                →  Is the value invalid?
+    ?.touched                →  Has the user interacted with it?
+    ?.errors?.['required']   →  Is the 'required' validator failing?
+════════════════════════════════════════════════════ -->
+
+<!-- Modal Backdrop: clicking outside closes the modal -->
+<div class="modal-backdrop" (click)="onCancel()"></div>
+
+<!-- Modal Box: stopPropagation prevents backdrop click from firing -->
+<div class="modal-box" (click)="$event.stopPropagation()">
+
+  <h2 class="modal-title">
+    {{ isEditing ? 'Edit Employee' : 'Add Employee' }}
+  </h2>
+
+  <!--
+    [formGroup] connects this <form> to the FormGroup object.
+    (ngSubmit) fires when the user submits (Enter key or submit button).
+  -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="form-row">
+      <!-- First Name -->
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          placeholder="e.g. John"
+          [class.invalid]="form.get('firstName')?.invalid && form.get('firstName')?.touched"
+        />
+        <span class="error"
+          *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched">
+          First name is required (min 2 chars).
+        </span>
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="e.g. Doe"
+          [class.invalid]="form.get('lastName')?.invalid && form.get('lastName')?.touched"
+        />
+        <span class="error"
+          *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched">
+          Last name is required (min 2 chars).
+        </span>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="e.g. john@example.com"
+        [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched"
+      />
+      <span class="error"
+        *ngIf="form.get('email')?.errors?.['required'] && form.get('email')?.touched">
+        Email is required.
+      </span>
+      <span class="error"
+        *ngIf="form.get('email')?.errors?.['email'] && form.get('email')?.touched">
+        Please enter a valid email address.
+      </span>
+    </div>
+
+    <div class="form-row">
+      <!-- Salary -->
+      <div class="form-group">
+        <label for="salary">Salary ($)</label>
+        <input
+          id="salary"
+          type="number"
+          formControlName="salary"
+          placeholder="e.g. 75000"
+          [class.invalid]="form.get('salary')?.invalid && form.get('salary')?.touched"
+        />
+        <span class="error"
+          *ngIf="form.get('salary')?.invalid && form.get('salary')?.touched">
+          Salary must be a positive number.
+        </span>
+      </div>
+
+      <!-- Date -->
+      <div class="form-group">
+        <label for="date">Start Date</label>
+        <input
+          id="date"
+          type="date"
+          formControlName="date"
+          [class.invalid]="form.get('date')?.invalid && form.get('date')?.touched"
+        />
+        <span class="error"
+          *ngIf="form.get('date')?.invalid && form.get('date')?.touched">
+          Date is required.
+        </span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        {{ isEditing ? 'Update Employee' : 'Add Employee' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>
