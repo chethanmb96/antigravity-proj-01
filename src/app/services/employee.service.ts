@@ -1,81 +1,102 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Employee } from '../models/employee.model';
-
-// ════════════════════════════════════════════════════════
-// Employee Service (HTTP & RxJS Observables Version)
-// ════════════════════════════════════════════════════════
-//
-// We have upgraded this service to make real HTTP requests using
-// Angular's HttpClient. Instead of synchronous operations,
-// every method now returns an RxJS Observable.
-//
-// ❓ What is an Observable?
-//   An Observable is a representation of a stream of data that arrives
-//   asynchronously. You can think of it like a "lazy Promise" that can
-//   emit multiple values over time (though HTTP requests only emit once).
-//
-// ❓ How does it compare to Promises?
-//   - Promises: Run immediately upon creation, cannot be cancelled,
-//     and always return a single value.
-//   - Observables: Do NOT run until you .subscribe() to them (lazy),
-//     can be cancelled (unsubscribed), and offer powerful operators
-//     (like map, filter, debounceTime) via RxJS.
-//
-// React/JS Analogy:
-//   In React, you might use:
-//     const response = await fetch('/api/employees');
-//     const data = await response.json();
-//   In Angular, we return an Observable and the component subscribes to it.
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
+  private supabase: SupabaseClient;
 
-  // The base URL for our local JSON REST API server
-  private apiUrl = 'http://localhost:3000/employees';
+  constructor() {
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
+  }
 
-  // HTTP Options (Headers)
-  // Used to tell the server we are sending JSON data in POST and PUT requests.
-  private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
-  // ── Dependency Injection ───────────────────────────────
-  // We inject Angular's HttpClient service here.
-  // Angular automatically provides this because we imported HttpClientModule.
-  constructor(private http: HttpClient) {}
-
-  // ── Get All Employees (GET) ────────────────────────────
-  // Sends a GET request to 'api/employees'.
-  // Returns an Observable emitting the array of employees.
   getAll(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl);
+    return from(
+      this.supabase
+        .from('employees')
+        .select('*')
+        .order('id', { ascending: true })
+        .then(({ data, error }) => {
+          if (error) {
+            throw error;
+          }
+
+          return (data || []).map((row: any) => this.mapEmployee(row));
+        })
+    );
   }
 
-  // ── Add New Employee (POST) ─────────────────────────────
-  // Sends a POST request to 'api/employees' with the employee payload.
-  // The server (InMemoryDataService) automatically assigns a new ID.
-  // Returns an Observable emitting the created employee object (with ID).
   add(employeeData: Omit<Employee, 'id'>): Observable<Employee> {
-    return this.http.post<Employee>(this.apiUrl, employeeData, this.httpOptions);
+    return from(
+      this.supabase
+        .from('employees')
+        .insert(this.toSupabasePayload(employeeData))
+        .select('*')
+        .single()
+        .then(({ data, error }) => {
+          if (error) {
+            throw error;
+          }
+
+          return this.mapEmployee(data);
+        })
+    );
   }
 
-  // ── Update Employee (PUT) ──────────────────────────────
-  // Sends a PUT request to 'api/employees' with the updated employee object.
-  // By REST standards, the server matches the record by ID.
-  // Returns an Observable emitting the response.
-  update(updated: Employee): Observable<any> {
-    return this.http.put(this.apiUrl, updated, this.httpOptions);
+  update(updated: Employee): Observable<Employee> {
+    return from(
+      this.supabase
+        .from('employees')
+        .update(this.toSupabasePayload(updated))
+        .eq('id', updated.id)
+        .select('*')
+        .single()
+        .then(({ data, error }) => {
+          if (error) {
+            throw error;
+          }
+
+          return this.mapEmployee(data);
+        })
+    );
   }
 
-  // ── Delete Employee (DELETE) ───────────────────────────
-  // Sends a DELETE request to 'api/employees/:id'.
-  // Returns an Observable emitting the response.
-  delete(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<any>(url, this.httpOptions);
+  delete(id: number): Observable<void> {
+    return from(
+      this.supabase
+        .from('employees')
+        .delete()
+        .eq('id', id)
+        .then(({ error }) => {
+          if (error) {
+            throw error;
+          }
+        })
+    );
+  }
+
+  private mapEmployee(row: any): Employee {
+    return {
+      id: row.id,
+      firstName: row.first_name ?? row.firstName,
+      lastName: row.last_name ?? row.lastName,
+      email: row.email,
+      salary: row.salary,
+      date: row.date
+    };
+  }
+
+  private toSupabasePayload(employee: Partial<Employee>): Record<string, unknown> {
+    return {
+      first_name: employee.firstName,
+      last_name: employee.lastName,
+      email: employee.email,
+      salary: employee.salary,
+      date: employee.date
+    };
   }
 }
