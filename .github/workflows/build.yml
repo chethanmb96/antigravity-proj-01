@@ -2,7 +2,7 @@ name: Angular 15 Build Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
     tags: [ 'v*' ]
   workflow_dispatch:
 
