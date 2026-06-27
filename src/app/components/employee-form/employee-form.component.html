@@ -41,7 +41,6 @@
           id="firstName"
           type="text"
           formControlName="firstName"
-          placeholder="e.g. John"
           [class.invalid]="form.get('firstName')?.invalid && form.get('firstName')?.touched"
         />
         <span class="error"
@@ -57,7 +56,6 @@
           id="lastName"
           type="text"
           formControlName="lastName"
-          placeholder="e.g. Doe"
           [class.invalid]="form.get('lastName')?.invalid && form.get('lastName')?.touched"
         />
         <span class="error"
@@ -74,7 +72,6 @@
         id="email"
         type="email"
         formControlName="email"
-        placeholder="e.g. john@example.com"
         [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched"
       />
       <span class="error"
@@ -95,7 +92,6 @@
           id="salary"
           type="number"
           formControlName="salary"
-          placeholder="e.g. 75000"
           [class.invalid]="form.get('salary')?.invalid && form.get('salary')?.touched"
         />
         <span class="error"

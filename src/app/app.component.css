@@ -1,7 +1,7 @@
 /* ── App Wrapper ── */
 .app-wrapper {
   min-height: 100vh;
-  background: #87ceeb;  /* Light sky blue background like the original */
+  background: #c5c5c5;  /* Light sky blue background like the original */
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -59,7 +59,7 @@
 /* ── Login Wrapper ── */
 .login-wrapper {
   min-height: 100vh;
-  background: #87ceeb;
+  background: #cccccc;
   display: flex;
   align-items: center;
   justify-content: center;
