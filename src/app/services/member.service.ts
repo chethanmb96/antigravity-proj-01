@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Employee } from '../models/employee.model';
+import { Member } from '../models/member.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class MemberService {
   private supabase: SupabaseClient;
 
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
   }
 
-  getAll(): Observable<Employee[]> {
+  getAll(): Observable<Member[]> {
     return from(
       this.supabase
         .from('employees')
@@ -25,16 +25,16 @@ export class EmployeeService {
             throw error;
           }
 
-          return (data || []).map((row: any) => this.mapEmployee(row));
+          return (data || []).map((row: any) => this.mapMember(row));
         })
     );
   }
 
-  add(employeeData: Omit<Employee, 'id'>): Observable<Employee> {
+  add(memberData: Omit<Member, 'id'>): Observable<Member> {
     return from(
       this.supabase
         .from('employees')
-        .insert(this.toSupabasePayload(employeeData))
+        .insert(this.toSupabasePayload(memberData))
         .select('*')
         .single()
         .then(({ data, error }) => {
@@ -42,12 +42,12 @@ export class EmployeeService {
             throw error;
           }
 
-          return this.mapEmployee(data);
+          return this.mapMember(data);
         })
     );
   }
 
-  update(updated: Employee): Observable<Employee> {
+  update(updated: Member): Observable<Member> {
     return from(
       this.supabase
         .from('employees')
@@ -60,7 +60,7 @@ export class EmployeeService {
             throw error;
           }
 
-          return this.mapEmployee(data);
+          return this.mapMember(data);
         })
     );
   }
@@ -79,7 +79,7 @@ export class EmployeeService {
     );
   }
 
-  private mapEmployee(row: any): Employee {
+  private mapMember(row: any): Member {
     return {
       id: row.id,
       firstName: row.first_name ?? row.firstName,
@@ -90,13 +90,16 @@ export class EmployeeService {
     };
   }
 
-  private toSupabasePayload(employee: Partial<Employee>): Record<string, unknown> {
+  private toSupabasePayload(member: Partial<Member>): Record<string, unknown> {
     return {
-      first_name: employee.firstName,
-      last_name: employee.lastName,
-      email: employee.email,
-      salary: employee.salary,
-      date: employee.date
+      first_name: member.firstName,
+      last_name: member.lastName,
+      email: member.email,
+      salary: member.salary,
+      date: member.date
     };
   }
 }
+
+// Alias for backwards compatibility
+export { MemberService as EmployeeService };

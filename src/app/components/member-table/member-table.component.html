@@ -1,19 +1,18 @@
 <!-- ════════════════════════════════════════════════════
-  Employee Table Template (Async version with Loading UI)
+  Member Table Template (Async version with Loading UI)
   ════════════════════════════════════════════════════ -->
 
 <div class="table-container">
 
   <!-- ── Header ── -->
   <div class="page-header">
-    <!-- Disable the button while loading to prevent actions during transit -->
     <button class="btn btn-primary" (click)="openAddModal()" [disabled]="isLoading">
-      Add Employee
+      Add Member
     </button>
   </div>
 
-  <!-- ── Employee Table ── -->
-  <table class="employee-table">
+  <!-- ── Member Table ── -->
+  <table class="member-table">
     <thead>
       <tr>
         <th>No.</th>
@@ -28,7 +27,6 @@
     <tbody>
 
       <!-- ── Loading Spinner Row ── -->
-      <!-- Shown only while isLoading is true -->
       <tr *ngIf="isLoading">
         <td colspan="7" class="loading-row">
           <div class="loading-spinner-container">
@@ -38,32 +36,31 @@
         </td>
       </tr>
 
-      <!-- ── Employee Rows ── -->
-      <!-- We only show rows if we are not loading -->
+      <!-- ── Member Rows ── -->
       <ng-container *ngIf="!isLoading">
-        <tr *ngFor="let employee of employees; let i = index">
+        <tr *ngFor="let member of members; let i = index">
           <td>{{ i + 1 }}</td>
-          <td class="name-cell">{{ employee.firstName }}</td>
-          <td class="name-cell">{{ employee.lastName }}</td>
-          <td class="email-cell">{{ employee.email }}</td>
-          <td>${{ employee.salary | number }}</td>
-          <td [class.highlight-date]="true">{{ employee.date }}</td>
+          <td class="name-cell">{{ member.firstName }}</td>
+          <td class="name-cell">{{ member.lastName }}</td>
+          <td class="email-cell">{{ member.email }}</td>
+          <td>${{ member.salary | number }}</td>
+          <td [class.highlight-date]="true">{{ member.date }}</td>
 
           <td class="actions-cell">
-            <button class="btn btn-edit" (click)="openEditModal(employee)" [disabled]="isLoading">
+            <button class="btn btn-edit" (click)="openEditModal(member)" [disabled]="isLoading">
               Edit
             </button>
-            <button class="btn btn-delete" (click)="onDelete(employee)" [disabled]="isLoading">
+            <button class="btn btn-delete" (click)="onDelete(member)" [disabled]="isLoading">
               Delete
             </button>
           </td>
         </tr>
       </ng-container>
 
-      <!-- Empty state: shown when no employees exist AND loading has finished -->
-      <tr *ngIf="employees.length === 0 && !isLoading">
+      <!-- Empty state: shown when no members exist AND loading has finished -->
+      <tr *ngIf="members.length === 0 && !isLoading">
         <td colspan="7" class="empty-row">
-          No employees found. Click "Add Employee" to add one.
+          No members found. Click "Add Member" to add one.
         </td>
       </tr>
     </tbody>
@@ -71,11 +68,11 @@
 
 </div>
 
-<!-- ── Child Component: Employee Form Modal ── -->
-<app-employee-form
+<!-- ── Child Component: Member Form Modal ── -->
+<app-member-form
   *ngIf="showModal"
-  [employeeToEdit]="employeeToEdit"
+  [memberToEdit]="memberToEdit"
   (save)="onSave($event)"
   (cancel)="closeModal()"
 >
-</app-employee-form>
+</app-member-form>

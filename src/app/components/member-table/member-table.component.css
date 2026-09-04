@@ -1,6 +1,5 @@
 /* ════════════════════════════════════════════════════
-   Employee Table Component Styles
-   Matches the visual design of the original React app
+   Member Table Component Styles
    ════════════════════════════════════════════════════ */
 
 /* ── Container ── */
@@ -63,16 +62,19 @@
 }
 
 /* ── Table ── */
+.member-table,
 .employee-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
 
+.member-table thead,
 .employee-table thead {
   border-bottom: 2px solid #dee2e6;
 }
 
+.member-table th,
 .employee-table th {
   text-align: left;
   padding: 0.65rem 0.75rem;
@@ -82,6 +84,7 @@
   white-space: nowrap;
 }
 
+.member-table td,
 .employee-table td {
   padding: 0.65rem 0.75rem;
   color: #444;
@@ -89,21 +92,22 @@
   vertical-align: middle;
 }
 
+.member-table tbody tr:hover,
 .employee-table tbody tr:hover {
   background: #f8f9fa;
 }
 
-/* ── Styled Cells (matches React app) ── */
+/* ── Styled Cells ── */
 .name-cell {
-  color: #0d6efd;  /* Blue names like the original */
+  color: #0d6efd;
 }
 
 .email-cell {
-  color: #0d6efd;  /* Blue email links */
+  color: #0d6efd;
 }
 
 .highlight-date {
-  color: #dc3545;  /* Red dates like the original */
+  color: #dc3545;
 }
 
 .actions-cell {
@@ -157,4 +161,3 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-

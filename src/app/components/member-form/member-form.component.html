@@ -1,8 +1,8 @@
 <!-- ════════════════════════════════════════════════════
-  Employee Form Modal Template
+  Member Form Modal Template
   ════════════════════════════════════════════════════
 
-  Angular Template Syntax you'll see here:
+  Angular Template Syntax:
   ─────────────────────────────────────────
   [formGroup]="form"        →  Links <form> to our FormGroup JS object
   formControlName="email"   →  Links <input> to form.controls.email
@@ -24,7 +24,7 @@
 <div class="modal-box" (click)="$event.stopPropagation()">
 
   <h2 class="modal-title">
-    {{ isEditing ? 'Edit Employee' : 'Add Employee' }}
+    {{ isEditing ? 'Edit Member' : 'Add Member' }}
   </h2>
 
   <!--
@@ -119,7 +119,7 @@
     <!-- Actions -->
     <div class="form-actions">
       <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-        {{ isEditing ? 'Update Employee' : 'Add Employee' }}
+        {{ isEditing ? 'Update Member' : 'Add Member' }}
       </button>
       <button type="button" class="btn btn-secondary" (click)="onCancel()">
         Cancel

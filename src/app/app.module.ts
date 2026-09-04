@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { EmployeeTableComponent } from './components/employee-table/employee-table.component';
-import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
+import { MemberTableComponent } from './components/member-table/member-table.component';
+import { MemberFormComponent } from './components/member-form/member-form.component';
 
 // ════════════════════════════════════════════════════════
 // App Module — The Application's "Table of Contents"
@@ -33,9 +33,10 @@ import { EmployeeFormComponent } from './components/employee-form/employee-form.
 //   → BrowserModule     → Required to run in a browser
 //   → FormsModule       → Enables [(ngModel)] (template-driven forms)
 //   → ReactiveFormsModule → Enables FormGroup, FormBuilder, etc.
+//   → HttpClientModule  → Enables HTTP client services
 //
 // providers:
-//   → Services (but EmployeeService uses providedIn:'root',
+//   → Services (MemberService uses providedIn:'root',
 //     so we don't need to list it here)
 //
 // bootstrap:
@@ -45,8 +46,8 @@ import { EmployeeFormComponent } from './components/employee-form/employee-form.
   declarations: [
     AppComponent,
     LoginComponent,
-    EmployeeTableComponent,
-    EmployeeFormComponent,
+    MemberTableComponent,
+    MemberFormComponent,
   ],
   imports: [
     BrowserModule,

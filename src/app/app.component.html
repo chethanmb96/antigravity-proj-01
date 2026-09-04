@@ -8,7 +8,7 @@
     → Shows the main app ONLY when isLoggedIn is true
     → Otherwise shows the login screen
 
-  <app-login> and <app-employee-table> are child components.
+  <app-login> and <app-member-table> are child components.
   Their selectors are defined in each component's @Component.
 
   (login)="onLogin($event)"
@@ -24,14 +24,14 @@
 <div *ngIf="isLoggedIn" class="app-wrapper">
   <div class="app-card">
     <div class="app-title-bar">
-      <h1 class="app-title">Employee Management</h1>
+      <h1 class="app-title">Members</h1>
       <div class="header-actions">
         <button class="btn-logout" (click)="onLogout()">Logout</button>
       </div>
     </div>
 
-    <!-- Child component: the main employee table -->
-    <app-employee-table></app-employee-table>
+    <!-- Child component: the main member table -->
+    <app-member-table></app-member-table>
   </div>
 </div>
 
