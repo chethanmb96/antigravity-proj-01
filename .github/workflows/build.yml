@@ -2,8 +2,10 @@ name: Angular 15 Build Pipeline
 
 on:
   push:
-    branches: [ "master" ]
-    tags: [ 'v*' ]
+    branches:
+      - master
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 permissions:
@@ -12,31 +14,50 @@ permissions:
 jobs:
   build_angular:
     name: Build Angular Application
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - arm64
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Show Runner Information
+        run: |
+          echo "Runner Name : $RUNNER_NAME"
+          echo "Runner OS   : $RUNNER_OS"
+          echo "Runner Arch : $RUNNER_ARCH"
+          hostname
+          uname -a
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+          cache: npm
+
+      - name: Display Node.js Version
+        run: |
+          node -v
+          npm -v
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build bundle
+      - name: Build Angular Application
         run: npm run build -- --configuration=production
 
-      - name: Upload build artifact
+      - name: List Build Output
+        run: ls -R dist
+
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: angular-build
           path: dist/employee-crud/
 
-      - name: Create release
+      - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:

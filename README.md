@@ -1,7 +1,7 @@
-# Angular Employee CRUD — Learning Guide
+# Angular — Learning Guide
 
-> **Who this is for:** You know JavaScript. You're new to Angular.
-> This guide explains every Angular concept used in this app with JS analogies.
+> **Who this is for:** You know JavaScript. 
+> This guide explains every Angular concept used in this app.
 
 ---
 
